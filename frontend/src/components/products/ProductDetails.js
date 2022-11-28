@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from "react";
 
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
+import { Carousel } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails, clearErrors } from "../../services/productServices";
@@ -31,22 +32,23 @@ const ProductDetails = () => {
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title={"Product Detail"} />
+          <MetaData title={product.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
-              <img
-                src="https://i5.walmartimages.com/asr/1223a935-2a61-480a-95a1-21904ff8986c_1.17fa3d7870e3d9b1248da7b1144787f5.jpeg?odnWidth=undefined&odnHeight=undefined&odnBg=ffffff"
-                alt="sdf"
-                height={500}
-                width={500}
-              />
+              <Carousel pause='hover'>
+                {product.images && product.images.map(image => (
+                  <Carousel.Item  key={image._id}>
+                  <img className="d-block w-100" src={image.url} alt={product.title} />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             </div>
             <div className="col-12 col-lg-5 mt-5">
               <h3>{product.name}</h3>
               <p id="product_id">Product # {product._id}</p>
               <hr />
               <div className="rating-outer">
-                <div className="rating-inner" />
+                <div className="rating-inner"  style={{ width: `${(product.ratings / 5) * 100}%` }} />
               </div>
               <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
               <hr />
@@ -70,14 +72,14 @@ const ProductDetails = () => {
               </button>
               <hr />
               <p>
-                Status: <span id="stock_status">In Stock</span>
+                Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor' }>{product.stock > 0 ? 'In stock' : 'Out Stock'}</span>
               </p>
               <hr />
               <h4 className="mt-2">Description:</h4>
               <p>{product.description}</p>
               <hr />
               <p id="product_seller mb-3">
-                Sold by: <strong>Amazon</strong>
+                Sold by: <strong>{product.seller}</strong>
               </p>
               <button
                 id="review_btn"
