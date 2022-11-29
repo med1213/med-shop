@@ -7,22 +7,28 @@ import Product from "./products/Product";
 import Loader from "./layouts/Loader";
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
+import { useParams } from "react-router-dom";
+import Slider from "rc-slider"
+import 'rc-slider/assets/index.css';
 
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1)
+  const params = useParams();
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { loading, products, error, productsCount, resPerPage } = useSelector(
     (state) => state.products
   );
+  const keyword = params.keyword;
 
   useEffect(() => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage));
-  }, [dispatch, alert, error, currentPage]);
+    dispatch(getProducts(keyword, currentPage));
+  }, [dispatch, alert, error, keyword, currentPage]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
@@ -45,7 +51,8 @@ const Home = () => {
                 ))}
             </div>
           </section>
-          
+
+          {resPerPage <= count && (
             <div className="d-flex justify-content-center mt-5">
               <Pagination
                 activePage={currentPage}
@@ -60,7 +67,7 @@ const Home = () => {
                 linkClass="page-link"
               />
             </div>
-          
+          )}
         </Fragment>
       )}
     </Fragment>
