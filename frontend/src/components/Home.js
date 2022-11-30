@@ -8,13 +8,18 @@ import Loader from "./layouts/Loader";
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
 import { useParams } from "react-router-dom";
-import Slider from "rc-slider"
-import 'rc-slider/assets/index.css';
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range);
 
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
   const params = useParams();
+
+  const [price, setPrice] = useState
 
   const [currentPage, setCurrentPage] = useState(1);
 
