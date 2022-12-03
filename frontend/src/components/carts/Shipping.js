@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { countries } from 'countries-list'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import MetaData from '../layouts/MetaData'
 import CheckoutSteps from './CheckoutSteps'
@@ -27,7 +27,7 @@ const Shipping = () => {
         e.preventDefault()
 
         dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }))
-        navigate('/confirm')
+        navigate('/order/confirm')
     }
 
     return (

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import "./App.css";
@@ -19,11 +19,45 @@ import ForgotPassword from "./components/user/ForgotPassword";
 import NewPassword from "./components/user/NewPassword";
 import Cart from "./components/carts/Cart";
 import Shipping from "./components/carts/Shipping";
+import ConfirmOrder from "./components/carts/ConfirmOrder";
+
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+// Payment
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Payment from "./components/carts/Payment";
+import OrderSuccess from "./components/carts/OrderSuccess";
+import ListOrders from "./components/orders/ListOrders";
+import OrderDetails from "./components/orders/OrderDetails";
+// admin
+import Dashboard from "./components/admin/Dashboard";
+import ProductsList from "./components/admin/ProductsList";
+import NewProduct from "./components/admin/NewProduct";
+import OrdersList from "./components/admin/OrdersList";
+import UpdateProduct from "./components/admin/UpdateProduct";
+import ProcessOrder from "./components/admin/ProcessOrder";
+import ProductReviews from "./components/admin/ProductReviews";
+import UsersList from "./components/admin/UsersList";
+import UpdateUser from "./components/admin/UpdateUser";
 
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
   useEffect(() => {
     store.dispatch(loadUser());
-  });
+
+    async function getStripApiKey() {
+      const { data } = await axios.get("/api/v1/stripeapi");
+
+      setStripeApiKey(data.stripeApiKey);
+    }
+
+    getStripApiKey();
+  }, []);
+
+  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
 
   return (
     <Router>
@@ -43,7 +77,32 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/order/confirm"
+              element={
+                <ProtectedRoute>
+                  <ConfirmOrder />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/success"
+              element={
+                <ProtectedRoute>
+                  <OrderSuccess />
+                </ProtectedRoute>
+              }
+            />
+            {stripeApiKey && (
+              <Route
+                path="/payment"
+                element={
+                  <Elements stripe={loadStripe(stripeApiKey)}>
+                    <Payment />
+                  </Elements>
+                }
+              />
+            )}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
@@ -70,12 +129,82 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/orders/me"
+              element={
+                <ProtectedRoute>
+                  <ListOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderDetails />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/password/forgot" element={<ForgotPassword />} />
             <Route path="/password/reset/:token" element={<NewPassword />} />
           </Routes>
         </div>
-        <Footer />
+        {/* admin Dashboard */}
+        {/* <ProtectedRoute
+          path="/dashboard"
+          isAdmin={true}
+          element={<Dashboard />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/products"
+          isAdmin={true}
+          element={<ProductsList />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/product"
+          isAdmin={true}
+          element={<NewProduct />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/product/:id"
+          isAdmin={true}
+          element={<UpdateProduct />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/orders"
+          isAdmin={true}
+          element={<OrdersList />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/order/:id"
+          isAdmin={true}
+          element={<ProcessOrder />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/users"
+          isAdmin={true}
+          element={<UsersList />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/user/:id"
+          isAdmin={true}
+          element={<UpdateUser />}
+          
+        />
+        <ProtectedRoute
+          path="/admin/reviews"
+          isAdmin={true}
+          element={<ProductReviews />}
+          
+        /> */}
+        {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}
       </div>
     </Router>
   );
