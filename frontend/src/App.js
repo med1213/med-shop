@@ -150,60 +150,68 @@ function App() {
           </Routes>
         </div>
         {/* admin Dashboard */}
-        <ProtectedRoute
-          path="/dashboard"
-          isAdmin={true}
-          element={<Dashboard />}
-          
-        />
-        <ProtectedRoute
+        <Routes>
+          <Route
+            path="/dashboard"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
           path="/admin/products"
           isAdmin={true}
-          element={<ProductsList />}
+          element={<ProtectedRoute><ProductsList /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/product"
           isAdmin={true}
-          element={<NewProduct />}
+          element={<ProtectedRoute><NewProduct /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/product/:id"
           isAdmin={true}
-          element={<UpdateProduct />}
+          element={<ProtectedRoute><UpdateProduct /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/orders"
           isAdmin={true}
-          element={<OrdersList />}
+          element={<ProtectedRoute><OrdersList /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/order/:id"
           isAdmin={true}
-          element={<ProcessOrder />}
+          element={<ProtectedRoute><ProcessOrder /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/users"
           isAdmin={true}
-          element={<UsersList />}
+          element={<ProtectedRoute><UsersList /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/user/:id"
           isAdmin={true}
-          element={<UpdateUser />}
+          element={<ProtectedRoute><UpdateUser /></ProtectedRoute>}
           
         />
-        <ProtectedRoute
+        <Route
           path="/admin/reviews"
           isAdmin={true}
-          element={<ProductReviews />}
+          element={<ProtectedRoute><ProductReviews /></ProtectedRoute>}
           
         />
+
+        </Routes>
+        
         {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}
       </div>
     </Router>
