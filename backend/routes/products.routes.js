@@ -1,33 +1,36 @@
-const express = require("express");
+const express = require('express')
 const router = express.Router();
 
+
 const {
-  getProducts,
-  newProduct,
-  getProductById,
-  updateProductById,
-  deleteProductById,
-  createProductReview,
-  getProductReviews,
-  deleteReview,
-} = require("../controllers/products.controller");
+    getProducts,
+    getAdminProducts,
+    newProduct,
+    getSingleProduct,
+    updateProduct,
+    deleteProduct,
+    createProductReview,
+    getProductReviews,
+    deleteReview
 
-const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
+} = require('../controllers/products.controller')
 
-router.route("/products").get(getProducts);
-router.route("/product/:id").get(getProductById);
-router
-  .route("/product/new")
-  .post(isAuthenticatedUser, authorizeRoles("admin"), newProduct);
-router
-  .route("/admin/product/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProductById);
-router
-  .route("/admin/product/:id")
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductById);
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
-router.route("/review").put(isAuthenticatedUser, createProductReview);
-router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
-router.route("/reviews").delete(isAuthenticatedUser, deleteReview);
+
+router.route('/products').get(getProducts);
+router.route('/admin/products').get(getAdminProducts);
+router.route('/product/:id').get(getSingleProduct);
+
+router.route('/admin/product/new').post(isAuthenticatedUser, authorizeRoles('admin'), newProduct);
+
+router.route('/admin/product/:id')
+    .put(isAuthenticatedUser, authorizeRoles('admin'), updateProduct)
+    .delete(isAuthenticatedUser, authorizeRoles('admin'), deleteProduct);
+
+
+router.route('/review').put(isAuthenticatedUser, createProductReview)
+router.route('/reviews').get(isAuthenticatedUser, getProductReviews)
+router.route('/reviews').delete(isAuthenticatedUser, deleteReview)
 
 module.exports = router;

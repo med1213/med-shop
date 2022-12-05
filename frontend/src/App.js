@@ -150,7 +150,7 @@ function App() {
           </Routes>
         </div>
         {/* admin Dashboard */}
-        {/* <ProtectedRoute
+        <ProtectedRoute
           path="/dashboard"
           isAdmin={true}
           element={<Dashboard />}
@@ -203,7 +203,7 @@ function App() {
           isAdmin={true}
           element={<ProductReviews />}
           
-        /> */}
+        />
         {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}
       </div>
     </Router>
