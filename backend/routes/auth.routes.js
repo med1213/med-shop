@@ -28,8 +28,8 @@ router.route("/me/update").put(isAuthenticatedUser, updateProfile);
 router.route("/logout").get(logoutUser);
 
 router.route("/admin/users").get(isAuthenticatedUser, authorizeRoles('admin'), allUsers)
-router.route("/admin/users/:id").get(isAuthenticatedUser, authorizeRoles('admin'), getUserDetails)
-router.route("/admin/users/:id").put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
-router.route("/admin/users/:id").delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser)
+router.route("/admin/user/:id").get(isAuthenticatedUser, authorizeRoles('admin'), getUserDetails)
+router.route("/admin/user/:id").put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
+router.route("/admin/user/:id").delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser)
 
 module.exports = router;
