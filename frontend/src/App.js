@@ -162,56 +162,79 @@ function App() {
           />
 
           <Route
-          path="/admin/products"
-          isAdmin={true}
-          element={<ProtectedRoute><ProductsList /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/product"
-          isAdmin={true}
-          element={<ProtectedRoute><NewProduct /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/product/:id"
-          isAdmin={true}
-          element={<ProtectedRoute><UpdateProduct /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/orders"
-          isAdmin={true}
-          element={<ProtectedRoute><OrdersList /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/order/:id"
-          isAdmin={true}
-          element={<ProtectedRoute><ProcessOrder /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/users"
-          isAdmin={true}
-          element={<ProtectedRoute><UsersList /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/user/:id"
-          isAdmin={true}
-          element={<ProtectedRoute><UpdateUser /></ProtectedRoute>}
-          
-        />
-        <Route
-          path="/admin/reviews"
-          isAdmin={true}
-          element={<ProtectedRoute><ProductReviews /></ProtectedRoute>}
-          
-        />
-
+            path="/admin/products"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <ProductsList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/product"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <NewProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/product/:id"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <UpdateProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <OrdersList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/order/:id"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <ProcessOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <UsersList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/user/:id"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <UpdateUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/reviews"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <ProductReviews />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-        
+
         {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}
       </div>
     </Router>
